@@ -18,15 +18,15 @@ rust-presentation/
 
 ## 1. Add your videos
 
-Drop these two files into `assets/videos/`:
+For local preview, keep these two files in `assets/videos/`:
 
 - `main-video.mp4` — your main 16:9 video (e.g. Subway Surfers gameplay)
 - `sign-language.mp4` — your sign-language interpreter video
 
-If you want different filenames, open `script.js` and edit the `CONFIG` object near the top:
-
-```js
-const CONFIG = {
+The Subway Surfers file is larger than GitHub's 100 MB repository-file limit. Create a GitHub Release
+tagged `v1.0.0` and upload the original `Subway Surfers Gameplay No Copyright - Vertical (1 HOUR).mp4`
+as a release asset. The deployed page is already configured to load that asset without compressing it.
+Also commit `assets/videos/sign-language.mp4` to the repository. Do not use a GitHub `blob` URL for videos.
   mainVideo: "assets/videos/main-video.mp4",
   signLanguageVideo: "assets/videos/sign-language.mp4"
 };
