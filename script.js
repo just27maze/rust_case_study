@@ -9,8 +9,8 @@
    filenames (or update the paths to match your filenames).
    ------------------------------------------------------------ */
 const CONFIG = {
-  mainVideo: "https://github.com/just27maze/rust_case_study/releases/download/v1.0/Subway%20Surfers%20Gameplay%20No%20Copyright%20-%20Vertical%20%281%20HOUR%29.mp4",
-  signLanguageVideo: "https://github.com/just27maze/rust_case_study/releases/download/v1.0/sign-language.mp4"
+  mainVideo: "assets/videos/surfers subway.mp4",
+  signLanguageVideo: "assets/videos/sign-language.mp4" // <-- put your sign-language video here
 };
 
 /* Behavior settings for each video. Change these if you want
@@ -40,6 +40,13 @@ const VIDEO_SETTINGS = {
   if (mainVideo) {
     const src = mainVideo.querySelector("source");
     if (src) src.src = CONFIG.mainVideo;
+    mainVideo.preload = "auto";
+    mainVideo.addEventListener("loadedmetadata", () => {
+      const frame = mainVideo.closest(".video-9-16");
+      if (frame && mainVideo.videoWidth && mainVideo.videoHeight) {
+        frame.style.aspectRatio = `${mainVideo.videoWidth} / ${mainVideo.videoHeight}`;
+      }
+    });
     mainVideo.muted = VIDEO_SETTINGS.main.muted;
     mainVideo.loop = VIDEO_SETTINGS.main.loop;
     mainVideo.controls = VIDEO_SETTINGS.main.controls;
@@ -323,72 +330,36 @@ document.querySelectorAll(".acc-trigger").forEach((trigger) => {
 });
 
 /* ------------------------------------------------------------
-   8. MAIN VIDEO PIP COLLAPSE TOGGLE
+   8. DRAGGABLE MAIN VIDEO PIP
    ------------------------------------------------------------ */
 const mainPip = document.getElementById("mainPip");
-const mainPipCollapse = document.getElementById("mainPipCollapse");
-const mainPipDecrease = document.getElementById("mainPipDecrease");
-const mainPipIncrease = document.getElementById("mainPipIncrease");
-const PIP_SIZE_STEP = 20;
-const PIP_MIN_WIDTH = 120;
-const PIP_MAX_WIDTH = 420;
-
-function setMainPipSize(width) {
-  if (!mainPip) return;
-  const maxWidth = Math.min(PIP_MAX_WIDTH, window.innerWidth - 24);
-  const nextWidth = Math.min(Math.max(width, PIP_MIN_WIDTH), maxWidth);
-  mainPip.style.width = `${nextWidth}px`;
-  if (mainPipDecrease) mainPipDecrease.disabled = nextWidth <= PIP_MIN_WIDTH;
-  if (mainPipIncrease) mainPipIncrease.disabled = nextWidth >= maxWidth;
-}
-
-if (mainPipDecrease) {
-  mainPipDecrease.addEventListener("click", (e) => {
-    e.stopPropagation();
-    setMainPipSize(mainPip.getBoundingClientRect().width - PIP_SIZE_STEP);
-  });
-}
-if (mainPipIncrease) {
-  mainPipIncrease.addEventListener("click", (e) => {
-    e.stopPropagation();
-    setMainPipSize(mainPip.getBoundingClientRect().width + PIP_SIZE_STEP);
-  });
-}
-if (mainPipCollapse) {
-  mainPipCollapse.addEventListener("click", (e) => {
-    e.stopPropagation(); // don't let this click also start a drag
-    mainPip.classList.toggle("collapsed");
-    mainPipCollapse.textContent = mainPip.classList.contains("collapsed") ? "+" : "–";
-    mainPipCollapse.setAttribute(
-      "aria-label",
-      mainPip.classList.contains("collapsed") ? "Expand main video" : "Minimize main video"
-    );
-  });
-}
-
-/* ------------------------------------------------------------
-   9. DRAGGABLE MAIN VIDEO PIP
-   Drag the header bar (grip icon) to move the box anywhere in
+/* Drag the video to move the box anywhere in
    the viewport. Works with mouse, touch, and pen via Pointer Events.
    Position is clamped so the box can't be dragged off-screen.
    ------------------------------------------------------------ */
 function makeDraggable(pip) {
   if (!pip) return;
-    const handle = pip;
+  const handle = pip;
   if (!handle) return;
 
   let dragging = false;
   let pointerId = null;
   let startX = 0, startY = 0, startLeft = 0, startTop = 0;
+  let wasPlayingBeforeDrag = false;
+  const pipVideo = pip.querySelector("video");
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
   }
 
   function onPointerDown(e) {
-       if (e.target.closest(".pip-collapse, .pip-size-control, .pip-resize-handle")) return;
+    if (e.target.closest(".pip-resize-handle")) return;
     if (e.target.closest("video") && e.button !== 0) return;
     e.preventDefault();
+    dragging = true;
+    pointerId = e.pointerId;
+    wasPlayingBeforeDrag = !!pipVideo && !pipVideo.paused;
+    if (pipVideo) pipVideo.pause();
     handle.setPointerCapture(pointerId);
 
     const rect = pip.getBoundingClientRect();
@@ -427,6 +398,7 @@ function makeDraggable(pip) {
     dragging = false;
     pip.classList.remove("dragging");
     try { handle.releasePointerCapture(pointerId); } catch (_) { /* already released */ }
+    if (wasPlayingBeforeDrag && pipVideo) pipVideo.play().catch(() => {});
     pointerId = null;
   }
 
@@ -449,17 +421,17 @@ makeDraggable(mainPip);
 makeDraggable(document.getElementById("signPip"));
 
 /* ------------------------------------------------------------
-   10. RESIZABLE MAIN VIDEO PIP
+  9. RESIZABLE VIDEO PIP
    Resize from any edge or corner while preserving the portrait ratio.
    ------------------------------------------------------------ */
 function makeResizable(pip) {
   if (!pip) return;
 
   const MIN_WIDTH = 120;
-  const MAX_WIDTH = 420;
+  const MAX_WIDTH = 576;
   const handles = pip.querySelectorAll(".pip-resize-handle");
   const videoFrame = pip.querySelector(".video-9-16, .video-16-9");
-  const aspectRatio = videoFrame?.classList.contains("video-9-16") ? 9 / 16 : 16 / 9;
+  const initialAspectRatio = videoFrame?.classList.contains("video-9-16") ? 9 / 16 : 16 / 9;
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
@@ -472,11 +444,13 @@ function makeResizable(pip) {
 
       const direction = handle.dataset.resize;
       const rect = pip.getBoundingClientRect();
+      const aspectRatio = videoFrame
+        ? videoFrame.getBoundingClientRect().width / videoFrame.getBoundingClientRect().height
+        : initialAspectRatio;
       const startWidth = rect.width;
       const startHeight = rect.height;
       const startLeft = rect.left;
       const startTop = rect.top;
-      const headerHeight = pip.querySelector(".pip-header")?.offsetHeight || 0;
       const startX = e.clientX;
       const startY = e.clientY;
       const maxWidth = Math.min(MAX_WIDTH, window.innerWidth - 24);
@@ -499,7 +473,7 @@ function makeResizable(pip) {
         const widthFromVertical = startWidth + (verticalDelta * aspectRatio);
         const requestedWidth = horizontalDelta ? widthFromHorizontal : widthFromVertical;
         const width = clamp(requestedWidth, MIN_WIDTH, maxWidth);
-        const height = headerHeight + (width / aspectRatio);
+        const height = width / aspectRatio;
 
         pip.style.width = `${width}px`;
         if (direction.includes("w")) pip.style.left = `${startLeft + startWidth - width}px`;
