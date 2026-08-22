@@ -1,0 +1,7 @@
+Place your video files in this folder:
+
+  main-video.mp4        -> the main 16:9 video (e.g. Subway Surfers gameplay)
+  sign-language.mp4     -> the sign-language interpreter video
+
+Filenames must match what's set in script.js under CONFIG,
+or update CONFIG in script.js to match your filenames.
