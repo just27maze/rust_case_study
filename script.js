@@ -9,8 +9,8 @@
    filenames (or update the paths to match your filenames).
    ------------------------------------------------------------ */
 const CONFIG = {
-  mainVideo: "assets/videos/main-video.mp4",          // <-- put your gameplay/main video here
-  signLanguageVideo: "assets/videos/sign-language.mp4" // <-- put your sign-language video here
+  mainVideo: "https://raw.githubusercontent.com/just27maze/rust_case_study/main/assets/videos/Subway Surfers Gameplay No Copyright - Vertical (1 HOUR).mp4",
+  signLanguageVideo: "https://raw.githubusercontent.com/just27maze/rust_case_study/main/assets/videos/sign-language.mp4"
 };
 
 /* Behavior settings for each video. Change these if you want
