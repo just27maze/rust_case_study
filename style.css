@@ -473,38 +473,17 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .main-pip {
   bottom: 24px;
   right: 24px;
-  width: 200px;
+  width: 180px;
+  height: auto;
+  border-color: var(--rust);
+  box-shadow: var(--shadow-m), 0 0 0 1px rgba(217, 224, 229, 0.18);
+  transition: box-shadow var(--transition), transform var(--transition);
   /* Default corner position above. script.js switches this to explicit
      left/top pixel values (and right/bottom to auto) once the box is dragged. */
 }
-.pip-header {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 10px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--ink-faint);
-  border-bottom: 1px solid var(--line);
-  background: var(--bg-alt);
-  cursor: grab;
-  touch-action: none;
-  user-select: none;
-}
-.pip-label { flex: 1; }
-.pip-grip { color: var(--ink-faint); font-size: 13px; letter-spacing: -1px; }
-.main-pip.dragging .pip-header { cursor: grabbing; }
+.main-pip:hover { transform: translateY(-2px); }
+.main-pip .video-9-16 video { filter: saturate(1.08) contrast(1.04); }
 .pip.dragging { box-shadow: var(--shadow-m), 0 0 0 2px var(--rust); opacity: 0.94; }
-.pip-size-control,
-.pip-collapse {
-  background: none; border: none; cursor: pointer;
-  font-size: 16px; line-height: 1; color: var(--ink-soft); padding: 0 4px;
-}
-.pip-size-control { font-family: var(--font-mono); font-size: 14px; }
-.pip-size-control:hover,
-.pip-collapse:hover { color: var(--rust); }
-.pip-size-control:disabled { opacity: 0.35; cursor: not-allowed;
-}
-.main-pip.collapsed .video-9-16 { display: none; }
-.main-pip .pip-header { display: flex; }
 .pip-resize-handle {
   position: absolute;
   z-index: 2;
@@ -566,10 +545,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 
   .stage { width: 100%; }
 
-  .main-pip { width: 110px; bottom: 12px; right: 12px; }
+  .main-pip { width: min(180px, calc(100vw - 24px)); height: auto; bottom: 12px; right: 12px; }
   .sign-pip { width: 100px; bottom: 12px; left: 12px; }
   .pip-label { display: none; }
-  .pip-header { padding: 8px; justify-content: center; }
 
   .slide-controls { bottom: 12px; padding: 6px 8px; gap: 10px; }
   .ctrl-progress { width: 50px; }
