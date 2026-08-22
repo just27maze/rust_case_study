@@ -423,24 +423,17 @@
   </main>
 
   <!-- ============ PERSISTENT MAIN VIDEO (PIP, stays mounted across all slides) ============ -->
-  <!-- Drag the header bar to move this box anywhere on screen. -->
+  <!-- Drag the video to move this box anywhere on screen. -->
   <div class="pip main-pip" id="mainPip">
-    <div class="pip-header" id="mainPipHandle">
-      <span class="pip-grip" aria-hidden="true">⠿</span>
-      <span class="pip-label">Main video</span>
-      <button class="pip-size-control" id="mainPipDecrease" type="button" aria-label="Decrease main video size" title="Decrease video size">−</button>
-      <button class="pip-size-control" id="mainPipIncrease" type="button" aria-label="Increase main video size" title="Increase video size">+</button>
-      <button class="pip-collapse" id="mainPipCollapse" aria-label="Minimize main video">–</button>
-    </div>
     <div class="video-9-16">
       <!--
         MAIN VIDEO SOURCE:
-        Drop your local file at assets/videos/main-video.mp4 (see CONFIG.mainVideo in script.js).
+        Main video: assets/videos/surfers subway.mp4 (see CONFIG.mainVideo in script.js).
         This <video> element persists across every slide — it will not restart when you navigate.
-        Container is 9:16 (portrait) to match vertical gameplay-style footage.
+        Container follows the video's natural frame ratio.
       -->
       <video id="mainVideo" playsinline muted autoplay>
-       <source src="https://raw.githubusercontent.com/just27maze/rust_case_study/main/assets/videos/Subway Surfers Gameplay No Copyright - Vertical (1 HOUR).mp4" type="video/mp4">
+        <source src="assets/videos/surfers subway.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </div>
@@ -463,7 +456,7 @@
         Configured to autoplay, muted, and loop per project settings.
       -->
       <video id="signVideo" playsinline muted loop autoplay aria-label="Sign language interpreter">
-        <source src="https://raw.githubusercontent.com/just27maze/rust_case_study/main/assets/videos/sign-language.mp4" type="video/mp4">
+        <source src="assets/videos/sign-language.mp4" type="video/mp4">
       </video>
     </div>
     <span class="pip-resize-handle pip-resize-n" data-resize="n" aria-hidden="true"></span>
