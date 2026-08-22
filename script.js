@@ -482,17 +482,4 @@ function makeResizable(pip) {
 
       function finishResize() {
         pip.classList.remove("resizing");
-        try { handle.releasePointerCapture(pointerId); } catch (_) { /* already released */ }
-        handle.removeEventListener("pointermove", onMove);
-        handle.removeEventListener("pointerup", finishResize);
-        handle.removeEventListener("pointercancel", finishResize);
-      }
-
-      handle.addEventListener("pointermove", onMove);
-      handle.addEventListener("pointerup", finishResize);
-      handle.addEventListener("pointercancel", finishResize);
-    });
-  });
-}
-makeResizable(mainPip);
-makeResizable(document.getElementById("signPip"));
+ 
