@@ -9,7 +9,7 @@
    filenames (or update the paths to match your filenames).
    ------------------------------------------------------------ */
 const CONFIG = {
-  mainVideo: "assets/videos/Subway Surfers Gameplay No Copyright - Vertical (1 HOUR).mp4",
+  mainVideo: "assets/videos/main-video.mp4",          // <-- put your gameplay/main video here
   signLanguageVideo: "assets/videos/sign-language.mp4" // <-- put your sign-language video here
 };
 
