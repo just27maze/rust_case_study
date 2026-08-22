@@ -374,7 +374,7 @@ if (mainPipCollapse) {
    ------------------------------------------------------------ */
 function makeDraggable(pip) {
   if (!pip) return;
-  const handle = pip.querySelector(".video-9-16, .video-16-9");
+    const handle = pip;
   if (!handle) return;
 
   let dragging = false;
@@ -386,9 +386,9 @@ function makeDraggable(pip) {
   }
 
   function onPointerDown(e) {
-    if (e.target.closest(".pip-collapse, .pip-size-control")) return; // let the controls handle their own clicks
-    dragging = true;
-    pointerId = e.pointerId;
+       if (e.target.closest(".pip-collapse, .pip-size-control, .pip-resize-handle")) return;
+    if (e.target.closest("video") && e.button !== 0) return;
+    e.preventDefault();
     handle.setPointerCapture(pointerId);
 
     const rect = pip.getBoundingClientRect();
