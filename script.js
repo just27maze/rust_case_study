@@ -9,8 +9,8 @@
    filenames (or update the paths to match your filenames).
    ------------------------------------------------------------ */
 const CONFIG = {
-  mainVideo: "https://raw.githubusercontent.com/just27maze/rust_case_study/main/assets/videos/Subway Surfers Gameplay No Copyright - Vertical (1 HOUR).mp4",
-  signLanguageVideo: "https://raw.githubusercontent.com/just27maze/rust_case_study/main/assets/videos/sign-language.mp4"
+  mainVideo: "https://github.com/just27maze/rust_case_study/releases/download/v1.0/Subway%20Surfers%20Gameplay%20No%20Copyright%20-%20Vertical%20%281%20HOUR%29.mp4",
+  signLanguageVideo: "https://github.com/just27maze/rust_case_study/releases/download/v1.0/sign-language.mp4"
 };
 
 /* Behavior settings for each video. Change these if you want
