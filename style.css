@@ -504,7 +504,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .pip-size-control:disabled { opacity: 0.35; cursor: not-allowed;
 }
 .main-pip.collapsed .video-9-16 { display: none; }
-.main-pip .pip-header { display: none; }
+.main-pip .pip-header { display: flex; }
 .pip-resize-handle {
   position: absolute;
   z-index: 2;
