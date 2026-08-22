@@ -8,19 +8,19 @@
    Just drop the files into assets/videos/ and keep these
    filenames (or update the paths to match your filenames).
    ------------------------------------------------------------ */
-const LOCAL_CONFIG = {
+const CONFIG = {
   mainVideo: "assets/videos/Subway Surfers Gameplay No Copyright - Vertical (1 HOUR).mp4",
-  signLanguageVideo: "assets/videos/sign-language.mp4"
+  signLanguageVideo: "assets/videos/sign-language.mp4" // <-- put your sign-language video here
 };
 
-const GITHUB_PAGES_CONFIG = {
-  mainVideo: "https://github.com/just27maze/rust_case_study/releases/download/v1.0.0/Subway%20Surfers%20Gameplay%20No%20Copyright%20-%20Vertical%20(1%20HOUR).mp4",
-  signLanguageVideo: "https://raw.githubusercontent.com/just27maze/rust_case_study/main/assets/videos/sign-language.mp4"
-};
-
-const CONFIG = window.location.hostname.endsWith("github.io")
-  ? GITHUB_PAGES_CONFIG
-  : LOCAL_CONFIG;
+/* Behavior settings for each video. Change these if you want
+   different autoplay/loop/mute/controls behavior. */
+const VIDEO_SETTINGS = {
+  main: {
+    autoplay: true,
+    loop: true,
+    muted: true,
+    controls: false
   },
   signLanguage: {
     autoplay: true,    // per project settings: interpreter video plays automatically
