@@ -1,5 +1,5 @@
 theme: jekyll-theme-primer
-source: .
+source: docs
 destination: _site
 
 # Exclude files and folders from Jekyll build
